@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="LuxBet - Inscription & Connexion en Pop-up Centré"/>
-  <title>LuxBet | Inscription & Connexion</title>
+  <meta name="description" content="LuxBet - Casino Crypto | Dépôt Auto → Jeux Débloqués"/>
+  <title>LuxBet | Casino Crypto</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
     .user-email { font-size: 0.9rem; color: #ccc; }
     .logout-btn { background: transparent; border: 1px solid #ccc; color: #ccc; padding: 0.4rem 0.8rem; border-radius: 12px; font-size: 0.8rem; cursor: pointer; }
 
-    /* === BOUTONS INSCRIPTION & CONNEXION PLUS PETITS === */
+    /* BOUTONS PETITS */
     #authButtons {
       display: flex; gap: 0.8rem;
     }
@@ -138,7 +138,7 @@
     .crypto-info.active { display: block; animation: fadeIn 0.5s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     #qrCode { width: 220px; height: 220px; margin: 1.5rem auto; display: block; border: 8px solid white; border-radius: 16px; }
-    .copy-btn { background: transparent; border: 2px solid var(--primary); margin-top: 1rem; }
+    .copy-btn { background  background: transparent; border: 2px solid var(--primary); margin-top: 1rem; }
 
     /* Unlocked */
     .unlocked {
@@ -326,31 +326,55 @@
     </div>
   </section>
 
-  <!-- Modals -->
+  <!-- Modal Accès Restreint -->
   <div class="modal" id="accessModal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('accessModal')">×</span>
       <h2>Accès Restreint</h2>
       <p><strong>Fait un dépôt avant de rentrer ici</strong></p>
-      <button class="btn" onclick="goToDeposit()">Faire un dépôt</button>
+      <button class="btn" onclick="goToDeposit()">Faire un dépôt maintenant</button>
     </div>
   </div>
 
+  <!-- Modal Réglementation (TEXTE COMPLET) -->
   <div class="modal" id="regulationModal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('regulationModal')">×</span>
-      <h2>Réglementation</h2>
-      <p>Licence Curaçao, 18+, jeu responsable.</p>
+      <h2>Réglementation LuxBet Casino</h2>
+      <p><strong>Licence :</strong> Curaçao eGaming n° OGL/2024/123</p>
+      <p><strong>Âge minimum :</strong> 18 ans</p>
+      <p><strong>Sécurité :</strong> SSL 256 bits, RNG certifié iTech Labs</p>
+      <p><strong>Retraits :</strong> 24h max, KYC obligatoire >1000€</p>
+      <p><strong>Jeu responsable :</strong> Limites auto-imposées, auto-exclusion</p>
+      <p style="margin-top:1.5rem; font-size:0.9rem; opacity:0.8;">© 2025 LuxBet. Jouez responsablement. 18+.</p>
     </div>
   </div>
 
+  <!-- Modal Support (TEXTE COMPLET) -->
   <div class="modal" id="supportModal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal('supportModal')">×</span>
       <h2>Support Jeu Responsable</h2>
-      <p>Chez Casino [LUXBET] nous voulons que le jeu reste un moment de détente...</p>
-      <p>Joueurs Info Service : 09 74 75 13 13</p>
+      <p><strong>Chez Casino [LUXBET] nous voulons que le jeu reste un moment de détente et de divertissement.<br>Votre bien-être est notre priorité.</strong></p>
+      <p><strong>Nos engagements</strong></p>
+      <ul>
+        <li>Informer chaque client sur les risques liés au jeu excessif.</li>
+        <li>Former notre personnel à reconnaître les signes d’addiction.</li>
+        <li>Offrir un environnement responsable et sécurisé.</li>
+        <li>Mettre à disposition des outils d’aide et d’accompagnement.</li>
+      </ul>
+      <p><strong>Jouer responsable, c’est aussi :</strong></p>
+      <ul>
+        <li>Se fixer un budget et un temps de jeu avant de commencer.</li>
+        <li>Ne jamais jouer pour se refaire ou se distraire d’un problème.</li>
+        <li>Savoir faire une pause régulièrement.</li>
+        <li>Parler à quelqu’un si le jeu prend trop de place dans votre vie.</li>
+      </ul>
+      <p><strong>Besoin d’aide ?</strong></p>
+      <p>Des associations et services d’écoute peuvent vous accompagner en toute confidentialité :</p>
+      <p><strong>Joueurs Info Service :</strong> 09 74 75 13 13 (appel non surtaxé)</p>
       <p><a href="https://www.joueurs-info-service.fr" target="_blank" style="color:var(--primary);">www.joueurs-info-service.fr</a></p>
+      <p>Consultez aussi notre personnel, formé à l’écoute et à l’orientation</p>
     </div>
   </div>
 
@@ -367,7 +391,6 @@
 
     let currentTx = null;
     let checkInterval = null;
-    let accessShown = false;
 
     // Éléments
     const hero = document.getElementById('hero');
@@ -380,19 +403,9 @@
     const balanceEl = document.getElementById('balance');
 
     // === POP-UP AUTH ===
-    function showRegister() {
-      closeAuth();
-      registerOverlay.classList.add('active');
-    }
-    function showLogin() {
-      closeAuth();
-      loginOverlay.classList.add('active');
-    }
-    function closeAuth() {
-      registerOverlay.classList.remove('active');
-      loginOverlay.classList.remove('active');
-    }
-
+    function showRegister() { closeAuth(); registerOverlay.classList.add('active'); }
+    function showLogin() { closeAuth(); loginOverlay.classList.add('active'); }
+    function closeAuth() { registerOverlay.classList.remove('active'); loginOverlay.classList.remove('active'); }
     function showLoginFromRegister() { closeAuth(); showLogin(); }
     function showRegisterFromLogin() { closeAuth(); showRegister(); }
 
@@ -403,10 +416,7 @@
       const password = document.getElementById('regPassword').value;
 
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      if (users.find(u => u.email === email)) {
-        alert('Cet email est déjà utilisé.');
-        return;
-      }
+      if (users.find(u => u.email === email)) return alert('Cet email est déjà utilisé.');
 
       users.push({ email, password, balance: 0 });
       localStorage.setItem('users', JSON.stringify(users));
@@ -422,10 +432,7 @@
 
       const users = JSON.parse(localStorage.getItem('users') || '[]');
       const user = users.find(u => u.email === email && u.password === password);
-      if (!user) {
-        alert('Email ou mot de passe incorrect.');
-        return;
-      }
+      if (!user) return alert('Email ou mot de passe incorrect.');
 
       localStorage.setItem('currentUser', JSON.stringify({ email, balance: user.balance }));
       loginSuccess(email, user.balance);
@@ -438,7 +445,6 @@
       userEmailEl.textContent = email;
       balanceEl.textContent = `Solde: ${balance}€`;
       if (balance > 0) balanceEl.classList.add('show');
-
       hero.style.display = 'block';
       dashboard.classList.add('active');
     }
@@ -451,20 +457,14 @@
     // === AU CHARGEMENT ===
     window.onload = () => {
       const user = JSON.parse(localStorage.getItem('currentUser'));
-      if (user) {
-        loginSuccess(user.email, user.balance);
-      } else {
-        hero.style.display = 'block';
-      }
+      if (user) loginSuccess(user.email, user.balance);
+      else hero.style.display = 'block';
 
       document.getElementById('openRegister').onclick = showRegister;
       document.getElementById('openLogin').onclick = showLogin;
       document.getElementById('heroDeposit').onclick = () => {
-        if (!localStorage.getItem('currentUser')) {
-          showRegister();
-        } else {
-          dashboard.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (!localStorage.getItem('currentUser')) showRegister();
+        else dashboard.scrollIntoView({ behavior: 'smooth' });
       };
     };
 
@@ -509,10 +509,7 @@
       checkInterval = setInterval(async () => {
         if (!currentTx) return;
         const received = await checkDeposit(currentTx);
-        if (received) {
-          clearInterval(checkInterval);
-          unlockGames(currentTx.eur);
-        }
+        if (received) { clearInterval(checkInterval); unlockGames(currentTx.eur); }
       }, 5000);
     }
 
@@ -543,12 +540,11 @@
       localStorage.removeItem('pendingTx');
     }
 
-    // === ACCÈS RESTREINT ===
+    // === ACCÈS RESTREINT À CHAQUE CLIC ===
     function checkAccess(section) {
-      if (localStorage.getItem('depositDone') !== 'true' && !accessShown) {
+      if (localStorage.getItem('depositDone') !== 'true') {
         document.getElementById('accessModal').classList.add('active');
-        accessShown = true;
-      } else if (localStorage.getItem('depositDone') === 'true') {
+      } else {
         alert(`Bienvenue dans ${section} !`);
       }
     }
@@ -558,12 +554,8 @@
       dashboard.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function showModal(id) {
-      document.getElementById(id).classList.add('active');
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
+    function showModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
     // Hamburger
     document.getElementById('hamburger').onclick = () => {
